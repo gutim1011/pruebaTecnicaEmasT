@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
 
 
-class Comment extends Model
+class Category extends Model
 
 {
 

@@ -34,6 +34,43 @@ class ProductApiController extends Controller
 
     return response()->json($product, 200);
 
-    }       
+    }      
+    
+    public function store(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+                    'name' => 'required',
+                    'description' => 'required',
+                    'stock' => 'required|numeric|gt:0',
+                    'price' => 'required|numeric|gt:0',
+                    'category' => 'required'
+        ]);
+
+        $product = Product::create($validated);
+        return response()->json($product, 201);
+    }
+
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $product = Product::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required',
+                    'description' => 'required',
+                    'stock' => 'required|numeric|gt:0',
+                    'price' => 'required|numeric|gt:0',
+                    'category' => 'required'
+        ]);
+
+        $product->update($validated);
+        return response()->json($product, 200);
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return response()->json(null, 204);
+    }
 
 }
